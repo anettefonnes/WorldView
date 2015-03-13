@@ -1,17 +1,16 @@
 /**
  * Created by Anette on 11.03.2015.
  */
-
 var scene, camera, renderer, keyCode, camPosX, camPosZ, camPosY;
 var root, earth, stars, light;
 var width, height, rad, seg;
-var pointer, marker;
+var marker;
+var locked = true, lockRot = true;
 
 init();
 animate();
 
 function init() {
-
     width = window.innerWidth - 20;
     height = window.innerHeight - 20;
 
@@ -21,7 +20,7 @@ function init() {
     camPosY = 100;
     camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
     camera.position.z = camPosZ;
-    camera.position.y = 400;
+    camera.position.y = 300;
 
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
@@ -106,28 +105,44 @@ function placeMarker(lo, la) {
 function keyPressed(event) {
     keyCode = event.which;
 
-    if(keyCode == 38) {
+    if(keyCode == 38 && camPosZ > 150 ) {
         camPosZ -= 5;
     }
     if(keyCode == 40) {
         camPosZ += 5;
     }
     if(keyCode == 37) {
-        camPosX -= 10;
+        camPosY -= 5;
     }
     if(keyCode == 39) {
-        camPosX += 10;
+        camPosY += 5;
     }
     camera.position.z = camPosZ;
+    //camera.position.y = camPosY;
     //camera.position.x = camposX;
+
+    //'l', Lock/Unlock the camera pointing at the root
+    if(keyCode == 76){
+        locked = !locked;
+    }
+
+    //'r', stops/starts rotating earth
+    if(keyCode == 82){
+        lockRot = !lockRot;
+    }
 }
 
 function animate() {
 
     requestAnimationFrame(animate);
 
-    camera.lookAt(root.position);
-    root.rotation.y += 0.005;
+    if(locked){
+        camera.lookAt(root.position);
+    }
+
+    if(lockRot){
+        root.rotation.y += 0.005;
+    }
 
     document.addEventListener("keydown", keyPressed, true);
     renderer.render(scene, camera);
