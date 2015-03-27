@@ -4,7 +4,7 @@
 function Earth(rad, seg){
     return new THREE.Mesh(
         new THREE.SphereGeometry(rad, seg, seg),
-        new THREE.MeshBasicMaterial({
+        new THREE.MeshPhongMaterial({
             map:            THREE.ImageUtils.loadTexture('img/earth.jpg'),
             bumpMap:        THREE.ImageUtils.loadTexture('img/earth_bump.jpg'),
             bumpScale:      2,

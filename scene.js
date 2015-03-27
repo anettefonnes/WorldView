@@ -1,7 +1,7 @@
+"use strict";
 /**
  * Created by Anette on 13.03.2015.
  */
-
 /**
  * Created by Anette on 11.03.2015.
  */
@@ -9,7 +9,7 @@ var scene, camera, renderer, camPosZ;
 var root, stars, light;
 var width, height, rad, seg;
 //var locked = true, lockRot = true;
-var Earth, Marker;
+var Earth, Mark;
 
 init();
 animate();
@@ -34,14 +34,17 @@ function init() {
     camera.position.z = camPosZ;
     camera.position.y = 300;
 
-    Marker = new Marker(60.0000, 40.0000, rad+5);
-    scene.add(Marker);
-    earth.add(Marker);
+    /* Mark = new Marker(rad+5);
+    Mark.setPos(60.0005, 40.005);
+    scene.add(Mark);
+    Earth.add(Mark); */
 
     renderer = setRenderer();
     renderer.setSize(width, height);
 
     light = createLight();
+    light.position.set(200,0,500);
+    light.lookAt(root.position);
     scene.add(new THREE.AmbientLight(0xffffff));
     scene.add(light);
 
@@ -63,11 +66,9 @@ function setCamera(w, h){
     return new THREE.PerspectiveCamera(45, w/h, 1, 10000);
 }
 
+//Does not work?
 function createLight() {
-    var l = new THREE.DirectionalLight(0xffffff, 0.3);
-    l.position.set(400,0,500);
-    l.lookAt(root.position);
-    return l;
+    return new THREE.DirectionalLight(0xffffff, 0.3);
 }
 
 function createStars(rad, seg) {
